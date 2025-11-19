@@ -1,0 +1,85 @@
+package io.github.agomosodev;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Client {
+    // Attributes
+    private int id;
+    private String name;
+    private String last_name;
+    private String email;
+    private String phone;
+    private List<Account> accounts;
+
+    // Constructor
+    public Client(int id, String name, String last_name, String email, String phone, List<Account> accounts) {
+        this.id = id;
+        this.name = name;
+        this.last_name = last_name;
+        this.email = email;
+        this.phone = phone;
+        this.accounts = new ArrayList<>();
+    }
+    // Getters and Setters
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+    // Method to add account
+    public void addCuenta(Account account) {
+        accounts.add(account);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Client{");
+        sb.append("id: ").append(id);
+        sb.append(", name: ").append(name);
+        sb.append(", last name: ").append(last_name);
+        sb.append(", email: ").append(email);
+        sb.append(", phone: ").append(phone);
+        sb.append(", accounts: ").append(accounts);
+        sb.append('}');
+        return sb.toString();
+    }
+
+
+}
