@@ -17,8 +17,17 @@ public class Client {
         this.id = id;
         this.name = name;
         this.last_name = last_name;
+        
+        if (!isValidEmail(email)) {
+            throw new IllegalArgumentException("Invalid email format");
+        }
         this.email = email;
+
+        if (!isValidPhone(phone)) {
+            throw new IllegalArgumentException("Invalid phone number format");
+        }
         this.phone = phone;
+
         this.accounts = new ArrayList<>();
     }
     // Getters and Setters
@@ -81,5 +90,13 @@ public class Client {
         return sb.toString();
     }
 
+    // Methods validate email and phone can be added here
+    private boolean isValidEmail(String email) {
+        return email != null && email.matches("^[\\w.-]+@[\\w.-]+\\.\\w+$");
+    }
+
+    private boolean isValidPhone(String telefono) {
+        return telefono != null && telefono.matches("^\\+?\\d{7,15}$");
+    }
 
 }
