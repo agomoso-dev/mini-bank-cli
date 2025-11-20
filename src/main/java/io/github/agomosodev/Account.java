@@ -37,7 +37,6 @@ public class Account {
         }
         this.accountNumber = normalized;
     }
-
     public double getBalance() {
         return balance;
     }
@@ -87,6 +86,7 @@ public class Account {
         return normalized;
     }
 
+    // Methods
     /**
      * Validate an IBAN using the standard checksum algorithm.
      * Returns true if the IBAN is syntactically valid and checksum passes.
