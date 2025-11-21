@@ -35,4 +35,29 @@ public class AccountService {
         }
         account.setBalance(result);
     }
+
+    /**
+     * Transfer amount from one account to another. Operation is atomic: if deposit fails,
+     * it attempts to roll back the withdrawal.
+     */
+    public static void transfer(Account from, Account to, double amount) {
+        if (from == null || to == null) throw new IllegalArgumentException("Accounts cannot be null");
+        if (amount <= 0) throw new IllegalArgumentException("Transfer amount must be > 0");
+
+        // withdraw first (may throw InsufficientFundsException)
+        withdraw(from, amount);
+
+        try {
+            deposit(to, amount);
+        } catch (RuntimeException ex) {
+            // attempt rollback: put money back to source
+            try {
+                deposit(from, amount);
+            } catch (RuntimeException rollbackEx) {
+                // If rollback fails, wrap both exceptions
+                throw new RuntimeException("Transfer failed and rollback also failed", rollbackEx);
+            }
+            throw ex;
+        }
+    }
 }

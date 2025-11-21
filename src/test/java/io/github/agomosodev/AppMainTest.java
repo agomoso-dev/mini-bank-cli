@@ -56,4 +56,21 @@ public class AppMainTest {
         String out = outContent.toString();
         assertTrue(out.contains("Failed to create SavingsAccount"));
     }
+
+    @Test
+    public void testDemoTransferDefault() {
+        App.main(new String[]{"demo-transfer"});
+        String out = outContent.toString();
+        assertTrue(out.contains("--- Transfer demo ---"));
+        assertTrue(out.contains("Before transfer: from=200.0, to=20.0"));
+        assertTrue(out.contains("After transfer: from=150.0, to=70.0") || out.contains("After transfer: from=150.0, to=70"));
+    }
+
+    @Test
+    public void testDemoTransferInsufficient() {
+        App.main(new String[]{"demo-transfer", "500.0"});
+        String out = outContent.toString();
+        assertTrue(out.contains("--- Transfer demo ---"));
+        assertTrue(out.contains("Transfer failed:"));
+    }
 }

@@ -37,6 +37,22 @@ public class AccountServiceTest {
         assertEquals(-150.0, ca.getBalance(), 0.0001);
     }
 
+        @Test
+        public void transferMovesFundsSuccessfully() {
+            Account aFrom = new Account("GB82 WEST 1234 5698 7654 32", 200.0, null, true, LocalDate.now());
+            Account aTo = new Account("GB82 WEST 1234 5698 7654 33", 50.0, null, true, LocalDate.now());
+            AccountService.transfer(aFrom, aTo, 100.0);
+            assertEquals(100.0, aFrom.getBalance(), 0.0001);
+            assertEquals(150.0, aTo.getBalance(), 0.0001);
+        }
+
+        @Test(expected = InsufficientFundsException.class)
+        public void transferThrowsWhenInsufficientFunds() {
+            Account aFrom = new Account("GB82 WEST 1234 5698 7654 32", 20.0, null, true, LocalDate.now());
+            Account aTo = new Account("GB82 WEST 1234 5698 7654 33", 0.0, null, true, LocalDate.now());
+            AccountService.transfer(aFrom, aTo, 50.0);
+        }
+
     @Test(expected = InsufficientFundsException.class)
     public void checkingExceedingOverdraftThrows() {
         CheckingAccount ca = new CheckingAccount("GB82 WEST 1234 5698 7654 32", 0.0, null, true, LocalDate.now(), 100.0, true);

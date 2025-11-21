@@ -8,38 +8,30 @@ import java.time.LocalDate;
  */
 public class App {
     public static void main(String[] args) {
-        System.out.println("=== Deposit / Withdraw demo ===");
+        // Only provide a transfer demo from App. Previously the file contained deposit/withdraw demos;
+        // we remove those and keep only demo-transfer to make tests focused.
+        System.out.println("=== Transfer demo runner ===");
 
-        // Basic account
-        Account account = new Account("ES6621000418401234567891", 100.0, null, true, LocalDate.now());
-        System.out.println("Initial balance (Account): " + account.getBalance());
-
-        System.out.println("Depositing 50.0 into Account...");
-        AccountService.deposit(account, 50.0);
-        System.out.println("Balance after deposit: " + account.getBalance());
-
-        System.out.println("Withdrawing 30.0 from Account...");
-        AccountService.withdraw(account, 30.0);
-        System.out.println("Balance after withdrawal: " + account.getBalance());
-
-        System.out.println();
-        // Checking account: supports overdraft
-        CheckingAccount checking = new CheckingAccount("ES6000491500051234567892", 20.0, null, true, LocalDate.now(), 100.0, true);
-        System.out.println("Initial balance (Checking): " + checking.getBalance() + ", overdraft limit=" + checking.getOverdraftLimit());
-
-        System.out.println("Withdrawing 50.0 from Checking (within overdraft)...");
-        AccountService.withdraw(checking, 50.0);
-        System.out.println("Balance after withdrawal: " + checking.getBalance());
-
-        System.out.println("Attempting to withdraw 100.0 from Checking (may exceed overdraft)...");
-        try {
-            AccountService.withdraw(checking, 100.0);
-            System.out.println("Balance after withdrawal: " + checking.getBalance());
-        } catch (InsufficientFundsException ex) {
-            System.out.println("Withdrawal failed: " + ex.getMessage());
+        // args: optional amount (default 50.0). If no args provided, still run demo with default.
+        double amount = 50.0;
+        if (args != null && args.length > 0) {
+            try {
+                amount = Double.parseDouble(args[0]);
+            } catch (NumberFormatException ex) {
+                System.out.println("Invalid transfer amount '" + args[0] + "', using 50.0");
+            }
         }
 
-        System.out.println();
-        System.out.println("Demo finished.");
+        System.out.println("--- Transfer demo ---");
+        Account from = new Account("ES6621000418401234567891", 200.0, null, true, LocalDate.now());
+        Account to = new Account("ES6000491500051234567892", 20.0, null, true, LocalDate.now());
+        System.out.println("Before transfer: from=" + from.getBalance() + ", to=" + to.getBalance());
+        try {
+            AccountService.transfer(from, to, amount);
+            System.out.println("After transfer: from=" + from.getBalance() + ", to=" + to.getBalance());
+        } catch (InsufficientFundsException ex) {
+            System.out.println("Transfer failed: " + ex.getMessage());
+        }
+        System.out.println("Transfer demo finished.");
     }
 }
