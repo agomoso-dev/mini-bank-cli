@@ -12,7 +12,46 @@ public class App {
         // we remove those and keep only demo-transfer to make tests focused.
         System.out.println("=== Transfer demo runner ===");
 
-        // args: optional amount (default 50.0). If no args provided, still run demo with default.
+        // If first arg is 'list-clients' or 'list-accounts', run listing flows
+        if (args != null && args.length > 0 && "list-clients".equalsIgnoreCase(args[0])) {
+            Bank bank = new Bank();
+            // sample data
+            Client c1 = new Client(1, "Alice", "Smith", "alice@example.com", "+34123456789", null);
+            Client c2 = new Client(2, "Bob", "Jones", "bob@example.com", "+34987654321", null);
+            Account a1 = new Account("ES6621000418401234567891", 100.0, null, true, LocalDate.now());
+            Account a2 = new Account("ES6000491500051234567892", 50.0, null, true, LocalDate.now());
+            c1.addCuenta(a1);
+            c2.addCuenta(a2);
+            bank.addClient(c1);
+            bank.addClient(c2);
+
+            System.out.println("--- Clients ---");
+            for (Client c : bank.getClients()) {
+                System.out.println(c.toString());
+            }
+            return;
+        }
+
+        if (args != null && args.length > 0 && "list-accounts".equalsIgnoreCase(args[0])) {
+            Bank bank = new Bank();
+            // sample data (same as above)
+            Client c1 = new Client(1, "Alice", "Smith", "alice@example.com", "+34123456789", null);
+            Client c2 = new Client(2, "Bob", "Jones", "bob@example.com", "+34987654321", null);
+            Account a1 = new Account("ES6621000418401234567891", 100.0, null, true, LocalDate.now());
+            Account a2 = new Account("ES6000491500051234567892", 50.0, null, true, LocalDate.now());
+            c1.addCuenta(a1);
+            c2.addCuenta(a2);
+            bank.addClient(c1);
+            bank.addClient(c2);
+
+            System.out.println("--- Accounts ---");
+            for (Account a : bank.getAllAccounts()) {
+                System.out.println(a.toString());
+            }
+            return;
+        }
+
+        // Default: run the transfer demo (amount optional first arg)
         double amount = 50.0;
         if (args != null && args.length > 0) {
             try {

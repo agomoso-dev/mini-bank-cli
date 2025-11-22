@@ -76,6 +76,11 @@ public class Client {
         accounts.add(account);
     }
 
+    // Getter for accounts list
+    public java.util.List<Account> getAccounts() {
+        return java.util.Collections.unmodifiableList(accounts);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
