@@ -15,9 +15,16 @@ public class Client {
     // Constructor
     public Client(int id, String name, String last_name, String email, String phone, List<Account> accounts) {
         this.id = id;
-        this.name = name;
-        this.last_name = last_name;
-        
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Client first name cannot be null or empty");
+        }
+        this.name = name.trim();
+
+        if (last_name == null || last_name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Client last name cannot be null or empty");
+        }
+        this.last_name = last_name.trim();
+
         if (!isValidEmail(email)) {
             throw new IllegalArgumentException("Invalid email format");
         }
@@ -28,7 +35,11 @@ public class Client {
         }
         this.phone = phone;
 
+        // copy provided accounts if any
         this.accounts = new ArrayList<>();
+        if (accounts != null) {
+            this.accounts.addAll(accounts);
+        }
     }
     // Getters and Setters
 
@@ -45,7 +56,8 @@ public class Client {
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (name == null || name.trim().isEmpty()) throw new IllegalArgumentException("Client first name cannot be null or empty");
+        this.name = name.trim();
     }
 
     public String getLast_name() {
@@ -53,7 +65,8 @@ public class Client {
     }
 
     public void setLast_name(String last_name) {
-        this.last_name = last_name;
+        if (last_name == null || last_name.trim().isEmpty()) throw new IllegalArgumentException("Client last name cannot be null or empty");
+        this.last_name = last_name.trim();
     }
 
     public String getEmail() {
@@ -61,6 +74,7 @@ public class Client {
     }
 
     public void setEmail(String email) {
+        if (!isValidEmail(email)) throw new IllegalArgumentException("Invalid email format");
         this.email = email;
     }
 
@@ -69,6 +83,7 @@ public class Client {
     }
 
     public void setPhone(String phone) {
+        if (!isValidPhone(phone)) throw new IllegalArgumentException("Invalid phone number format");
         this.phone = phone;
     }
     // Method to add account

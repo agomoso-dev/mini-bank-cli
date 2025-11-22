@@ -22,7 +22,7 @@ public class Bank {
         for (Client c : clients) {
             out.addAll(c.getAccounts());
         }
-        return out;
+        return Collections.unmodifiableList(out);
     }
 
     public void clear() {
