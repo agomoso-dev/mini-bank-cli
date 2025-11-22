@@ -13,6 +13,7 @@ public class BankMenu {
         System.out.println("Welcome to Mini Bank CLI - Menu demo");
         boolean running = true;
         while (running) {
+            clearConsole();
             printMenu();
             System.out.print("Select option: ");
             String choice = sc.nextLine().trim();
@@ -46,6 +47,7 @@ public class BankMenu {
                     System.out.println("Unknown option. Try again.");
             }
             System.out.println();
+            pause(sc);
         }
         sc.close();
     }
@@ -86,6 +88,30 @@ public class BankMenu {
         System.out.println("--- Accounts ---");
         for (Account a : bank.getAllAccounts()) {
             System.out.println(a);
+        }
+    }
+
+    private static void clearConsole() {
+        try {
+            String os = System.getProperty("os.name").toLowerCase();
+            if (os.contains("windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                new ProcessBuilder("clear").inheritIO().start().waitFor();
+            }
+        } catch (Exception ex) {
+            // fallback: print several new lines
+            for (int i = 0; i < 50; i++) System.out.println();
+        }
+    }
+
+    private static void pause(Scanner sc) {
+        System.out.println("\nPress Enter to continue...");
+        sc.nextLine();
+        try {
+            Thread.sleep(150);
+        } catch (InterruptedException ignored) {
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -187,7 +213,6 @@ public class BankMenu {
 
     private static void doCreateClient(Bank bank, Scanner sc) {
         try {
-            // Auto-assign an ID: max existing id + 1
             int nextId = bank.getClients().stream().mapToInt(Client::getId).max().orElse(0) + 1;
             System.out.println("Assigned client id: " + nextId);
             System.out.print("First name: ");
@@ -196,7 +221,7 @@ public class BankMenu {
             String last = sc.nextLine().trim();
             System.out.print("Email: ");
             String email = sc.nextLine().trim();
-            System.out.print("Phone (+countrycode...): ");
+            System.out.print("Phone: ");
             String phone = sc.nextLine().trim();
 
             Client client = new Client(nextId, name, last, email, phone, null);
