@@ -52,6 +52,14 @@ java -cp out io.github.agomosodev.Main
 ```
 ======= Mini Bank CLI =======
 ---------------
+1) List clients
+2) List accounts
+3) Deposit
+4) Withdraw
+5) Transfer
+6) Create account for client
+7) Create client
+8) Exit
 ============================
 Choose an option:
 ```
