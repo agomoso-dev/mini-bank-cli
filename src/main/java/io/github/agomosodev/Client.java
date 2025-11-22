@@ -105,7 +105,13 @@ public class Client {
         sb.append(", last name: ").append(last_name);
         sb.append(", email: ").append(email);
         sb.append(", phone: ").append(phone);
-        sb.append(", accounts: ").append(accounts);
+        sb.append(", accounts: [");
+        for (int i = 0; i < accounts.size(); i++) {
+            Account a = accounts.get(i);
+            sb.append(a == null ? "null" : a.getAccountNumber());
+            if (i < accounts.size() - 1) sb.append(", ");
+        }
+        sb.append("]");
         sb.append('}');
         return sb.toString();
     }

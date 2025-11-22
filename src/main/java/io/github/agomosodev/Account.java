@@ -68,7 +68,12 @@ public class Account {
         sb.append("Account{");
         sb.append("accountNumber=").append(accountNumber);
         sb.append(", balance=").append(balance);
-        sb.append(", owner=").append(owner);
+        sb.append(", owner=");
+        if (owner == null) {
+            sb.append("null");
+        } else {
+            sb.append("Client{id=").append(owner.getId()).append(", name=").append(owner.getName()).append("}");
+        }
         sb.append(", state=").append(state);
         sb.append(", creationDate=").append(creationDate);
         sb.append('}');
